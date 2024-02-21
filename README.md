@@ -1,1 +1,1 @@
-# Du-Bois-Data-Challenge-2024
+# Du-Bois-Challenge-2024
