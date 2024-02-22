@@ -32,10 +32,14 @@ ga_clean <- ga %>%
 # Straighten Maps
 ga_clean <- st_transform(ga_clean, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
+#Add color palette
+myColors <- c("#536254", "#edb457", "#e89a96", "#dd3454", "#bf9d82", "#78533b", "#352a60", "#e2cebb")
+
 # Map 1870 Data
 ga_clean %>% 
   ggplot() +
-  geom_sf(aes(fill = data_1870))
+  geom_sf(aes(fill = data_1870)) +
+  scale_fill_manual(values = myColors)
 
 # Map 1880 Data
 ga_clean %>% 
