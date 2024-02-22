@@ -4,11 +4,15 @@
 
 # Load Packages
 library(sf) # Spatial figures? package is most popular in R for mapping/spatial data
+<<<<<<< HEAD
 library(ggplot2)
 library(tidyverse)
 library(RColorBrewer)
 library(ggforce)
 
+=======
+library(ggforce)
+>>>>>>> f17e523cdfed96895da6f326edc9bf5b363c20af
 
 # Set working directory (need one per person?)
 wd = '../Data Input/'
@@ -41,6 +45,7 @@ myColors <- c("#536254", "#edb457", "#e89a96", "#dd3454", "#bf9d82", "#78533b", 
 ga_clean %>% 
   filter(!is.na(data_1870)) %>% 
   ggplot() +
+<<<<<<< HEAD
   geom_sf(aes(fill = data_1870), color = "black") +
   scale_fill_manual(values = myColors) +
   labs(title = "1870") +
@@ -65,6 +70,12 @@ ga_clean %>%
   # geom_sf(color = 'black', fill = NA) +
   # labs(color = NULL, fill = NULL) +
   # theme(legend.text = element_text(size=16))
+=======
+  geom_sf(aes(fill = data_1870, color = data_1870), size = 16, show.legend = "point") +
+  geom_sf(color = 'black', fill = NA) +
+  labs(color = NULL, fill = NULL) +
+  theme(legend.text = element_text(size=16))
+>>>>>>> f17e523cdfed96895da6f326edc9bf5b363c20af
   # scale_color_manual(
   #   values = c("#9b5fe0", "#16a4d8", "#60dbe8", "#8bd346", '#efdf48', '#f9a52c', '#d64e12'
   #   ),
