@@ -4,9 +4,12 @@
 
 # Load Packages
 library(sf) # Spatial figures? package is most popular in R for mapping/spatial data
+library(ggplot2)
+library(tidyverse)
+library(RColorBrewer)
 
 # Set working directory (need one per person?)
-wd = 'C:/Summit/Du-Bois-Challenge-2024/Data Input/'
+wd = '../Data Input/'
 
 # Load data
 ga <- read_sf(paste0(wd, 'DuBoisChallenge - Georgia Counties w 1870 & 1880 data.shp'))
