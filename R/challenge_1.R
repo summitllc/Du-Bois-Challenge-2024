@@ -44,40 +44,39 @@ ga_clean <- st_transform(ga_clean, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 myColors <- c("#536254", "#edb457", "#e89a96", "#dd3454", "#bf9d82", "#78533b", "#352a60", "#e2cebb")
 
 # Map 1870 Data (without legend)
-ga_clean %>% 
+map_1870 <- ga_clean %>% 
   filter(!is.na(data_1870)) %>% 
   ggplot() +
-<<<<<<< HEAD
   geom_sf(aes(fill = data_1870), color = "black") +
   scale_fill_manual(values = myColors) +
-  labs(title = "1870") +
-  theme(panel.background = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        legend.position = "none")
+  ggtitle("1870") +
+  # theme(panel.background = element_blank(),
+  #       axis.text = element_blank(),
+  #       axis.ticks = element_blank(),
+  #       legend.position = "none")
+  theme_void() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.24, 
+                                  vjust = -0.9, 
+                                  family = "Bahnschrift",
+                                  size = 8))
 
 # Map 1870 Data (with legend)
-ga_clean %>% 
-  filter(!is.na(data_1870)) %>% 
-  ggplot() +
-  geom_sf(aes(fill = data_1870, color = data_1870), size = 16, show.legend = "point") +
-  scale_fill_manual(values = myColors) +
-  scale_color_manual(values = myColors) +
-  labs(fill = NULL, color = NULL, title = "1870") +
-  geom_sf(color = 'black', fill = NA) +
-  theme(panel.background = element_blank(),
-        axis.text = element_blank(),
-        axis.ticks = element_blank())
-  # geom_sf(aes(fill = data_1870, color = data_1870), size = 16, show.legend = "point") +
-  # geom_sf(color = 'black', fill = NA) +
-  # labs(color = NULL, fill = NULL) +
-  # theme(legend.text = element_text(size=16))
-=======
-  geom_sf(aes(fill = data_1870, color = data_1870), size = 16, show.legend = "point") +
-  geom_sf(color = 'black', fill = NA) +
-  labs(color = NULL, fill = NULL) +
-  theme(legend.text = element_text(size=16))
->>>>>>> f17e523cdfed96895da6f326edc9bf5b363c20af
+# ga_clean %>% 
+#   filter(!is.na(data_1870)) %>% 
+#   ggplot() +
+#   geom_sf(aes(fill = data_1870, color = data_1870), size = 16, show.legend = "point") +
+#   scale_fill_manual(values = myColors) +
+#   scale_color_manual(values = myColors) +
+#   labs(fill = NULL, color = NULL, title = "1870") +
+#   geom_sf(color = 'black', fill = NA) +
+#   theme(panel.background = element_blank(),
+#         axis.text = element_blank(),
+#         axis.ticks = element_blank())
+#   geom_sf(aes(fill = data_1870, color = data_1870), size = 16, show.legend = "point") +
+#   geom_sf(color = 'black', fill = NA) +
+#   labs(color = NULL, fill = NULL) +
+#   theme(legend.text = element_text(size=16))
   # scale_color_manual(
   #   values = c("#9b5fe0", "#16a4d8", "#60dbe8", "#8bd346", '#efdf48', '#f9a52c', '#d64e12'
   #   ),
@@ -90,10 +89,23 @@ ga_clean %>%
   #       legend.title = element_text(size=14), #change legend title font size
   #       legend.text = element_text(size=10))
 
-# Map 1880 Data
-ga_clean %>% 
+map_1880 <- ga_clean %>% 
+  filter(!is.na(data_1880)) %>% 
   ggplot() +
-  geom_sf(aes(fill = data_1880))
+  geom_sf(aes(fill = data_1880), color = "black") +
+  scale_fill_manual(values = myColors) +
+  ggtitle("1880") +
+  # theme(panel.background = element_blank(),
+  #       axis.text = element_blank(),
+  #       axis.ticks = element_blank(),
+  #       legend.position = "none") +
+  theme_void() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.24, 
+                                  vjust = -0.9, 
+                                  family = "Bahnschrift",
+                                  size=8))
+
 
 ## Try at manual legend?
 ggplot() +
