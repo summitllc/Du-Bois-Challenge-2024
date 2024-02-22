@@ -4,15 +4,17 @@
 
 # Load Packages
 library(sf) # Spatial figures? package is most popular in R for mapping/spatial data
-<<<<<<< HEAD
 library(ggplot2)
 library(tidyverse)
 library(RColorBrewer)
 library(ggforce)
+library(grid)
+library(extrafont)
 
-=======
-library(ggforce)
->>>>>>> f17e523cdfed96895da6f326edc9bf5b363c20af
+#I think you'll need this code if you haven't updated your fonts, but not positive if we all need it
+# font_import()
+# loadfonts(device = "win")
+# font_import("Bahnschrift Light")
 
 # Set working directory (need one per person?)
 wd = '../Data Input/'
