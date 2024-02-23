@@ -18,6 +18,7 @@ library(extrafont)
 
 # Set working directory (need one per person?)
 wd = '../Data Input/'
+wd = 'C:/Summit/Du-Bois-Challenge-2024/Data Input/'
 
 # Load data
 ga <- read_sf(paste0(wd, 'DuBoisChallenge - Georgia Counties w 1870 & 1880 data.shp'))
@@ -173,6 +174,88 @@ grid.text("5,000 TO 10,000",
           x=.54, y=.75, 
           gp=gpar(fontsize=6, fontfamily="Bahnschrift Light"))
 
+
+# library(berryFunctions)
+# x <- seq(-180, 180, length.out=30)
+# y <- seq(-90, 90, length.out=30)
+# grd <- expand.grid(x=x,y=y)
+# z <- sqrt(grd$x^2+grd$y^2)
+# dim(z) <- c(length(x), length(y))
+# pal <- colorRampPalette(c(rgb(1,1,1), rgb(0,0,0)))
+# COLORS <- pal(20)
+# image(x,y,z, col=COLORS)
+# 
+# z2 <- grd$x^2+grd$y
+# dim(z2) <- c(length(x), length(y))
+# pal <- colorRampPalette(c(rgb(0.5,1,0), rgb(0,1,1), rgb(1,1,1)))
+# COLORS <- addAlpha(pal(20), 0.4) # alpha chanel equals 0.4
+# image(x,y,z2, col=COLORS, add=TRUE)
+# addAlpha("red", c(0.1, 0.3, 0.6, 1))
+
+## This is code for creating the lines for different areas of the map
+library(HatchedPolygons)
+sf.hatch.1 <- hatched.SpatialPolygons(ga_clean %>% 
+                                        filter(!is.na(data_1870)) %>% 
+                                        filter(data_1870 == 'UNDER 1,000'), density = 20, angle = 95)
+sf.hatch.1 <- sf.hatch.1 %>% 
+  st_as_sf(sf_column_name = "geometry", crs = 4326) %>% 
+  st_set_crs(4326)
+
+sf.hatch.2 <- hatched.SpatialPolygons(ga_clean %>% 
+                                        filter(!is.na(data_1870)) %>% 
+                                        filter(data_1870 == '5,000 TO 10,000'), density = 30, angle = -7)
+sf.hatch.2 <- sf.hatch.2 %>% 
+  st_as_sf(sf_column_name = "geometry", crs = 4326) %>% 
+  st_set_crs(4326)
+
+sf.hatch.1 %>%
+  ggplot() +
+  geom_sf(aes(geometry = geometry))
+
+## Using census tract data to change areas alpha randomly (marker effect)
+library(tigris)
+ga_tracts <- tracts(state = 'Georgia')
+
+# ga_tracts %>%
+#   ggplot() +
+#   geom_sf(aes(geometry = geometry))
+
+# Set seed so we all get the same map
+set.seed(13)
+# Randomly assign numbers to use for transparency level
+ga_tracts <- ga_tracts %>% 
+  mutate(alpha_level = runif(n=2796, min=1, max=10))
+
+# Try for gradient (gradient based on longitude)
+ga_gradient <- ga_tracts %>% 
+  group_by(COUNTYFP) %>% 
+  arrange(INTPTLON) %>% 
+  mutate(alpha_level2 = 1:n()/n()) 
+
+# Map with transparency added
+ga_clean %>% 
+  filter(!is.na(data_1870)) %>% 
+  ggplot() +
+  geom_sf(aes(fill = data_1870), color = "black") +
+  # geom_sf(data = sf.hatch.1, color = "white", alpha = 0.1) +
+  # geom_sf(data = sf.hatch.2, color = "white", alpha = 0.1) +
+  # geom_sf(data = ga_tracts, aes(geometry = geometry, alpha = TRACTCE), fill = 'white', color = NA) +
+  geom_sf(data = ga_tracts, aes(geometry = geometry, alpha = alpha_level), fill = 'white', color = NA) +
+  # geom_sf(data = ga_gradient, aes(geometry = geometry, alpha = alpha_level2), fill = 'white', color = NA) +
+  scale_alpha_continuous(range = c(0, 0.15)) +
+  # scale_fill_gradientn(colors = alpha(myColors, 0.5)) +
+  scale_fill_manual(values = myColors) +
+  ggtitle("1870") +
+  # theme(panel.background = element_blank(),
+  #       axis.text = element_blank(),
+  #       axis.ticks = element_blank(),
+  #       legend.position = "none")
+  theme_void() +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.24, 
+                                  vjust = -0.9, 
+                                  family = "Bahnschrift",
+                                  size = 8))
 
 
 
