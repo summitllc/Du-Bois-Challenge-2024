@@ -10,17 +10,19 @@ library(RColorBrewer)
 library(ggforce)
 library(grid)
 library(extrafont)
-
+library(jpeg)
+library(ggpubr)
+library(gridExtra)
 #I think you'll need this code if you haven't updated your fonts, but not positive if we all need it
 # font_import()
 # loadfonts(device = "win")
 # font_import("Bahnschrift Light")
 
 # Set working directory (need one per person?)
-wd = '../Data Input/'
+wd = 'C:\\Du-Bois-Challenge-2024\\Data Input'
 
 # Load data
-ga <- read_sf(paste0(wd, 'DuBoisChallenge - Georgia Counties w 1870 & 1880 data.shp'))
+ga <- read_sf('C:\\Du-Bois-Challenge-2024\\Data Input\\DuBoisChallenge - Georgia Counties w 1870 & 1880 data.shp')
 
 # drop geometry 
 # This loads faster than data with the geometry (just to look at variables)
@@ -115,18 +117,22 @@ map_1880 <- ga_clean %>%
 #   geom_circle(aes(x0=3, y0=3, r=1), inherit.aes=FALSE) +
 #   coord_fixed()
 
+#For background
+bkg_file <- 'C:\\Du-Bois-Challenge-2024\\Data Input\\background_photo.jpg'
+bkg <- jpeg::readJPEG(bkg_file)
+grid.raster(bkg)
 
 #Viewports
 vp <- viewport(x=0.5, y=0.5, width=.7, height=1)
 pushViewport(vp)
-grid.rect(gp=gpar(fill="#e5d3c1"))
 grid.text("NEGRO POPULATION OF GEORGIA BY COUNTIES.", 
-          x=.5, y=.97, 
-          gp=gpar(fontsize=8, fontfamily="Bahnschrift"))
+          x=.5, y=.95, 
+          gp=gpar(fontsize=10, fontfamily="Bahnschrift", fontface = "bold"))
+
 
 vp1 <- viewport(x=0.3, y=0.72, width=0.7, height=0.52)
 pushViewport(vp1)
-grid.rect(gp=gpar(lty="", fill="#e5d3c1"))
+#rid.rect(gp=gpar(lty="", fill="#e5d3c1"))
 print(map_1870, newpage=FALSE)
 upViewport()
 
@@ -172,7 +178,3 @@ grid.circle(x=0.25, y=0.75, r=0.04, gp=gpar(fill="#dd3454"))
 grid.text("5,000 TO 10,000", 
           x=.54, y=.75, 
           gp=gpar(fontsize=6, fontfamily="Bahnschrift Light"))
-
-
-
-
