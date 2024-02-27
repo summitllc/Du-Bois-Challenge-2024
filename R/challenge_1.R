@@ -1,4 +1,4 @@
-## WEB Du Bois Challenge 1
+## W.E.B Du Bois Challenge 1
 ## Summit Consulting
 ## 2024-02-21
 
@@ -13,14 +13,14 @@ library(grid)
 library(extrafont)
 
 
-# Load data
+# Load county data
 ga <- read_sf('../Data Input/DuBoisChallenge - Georgia Counties w 1870 & 1880 data.shp')
 
 # Load background image
 bkg_file <- '../Data Input/background_photo.jpg'
 
 # Clean the variables of interest
-## Set them as factors, clean variable names, clean the labels to match Du Bois
+## Set them as factors, clean variable names, clean the labels to match original image
 ga_clean <- ga %>%
   mutate(data_1870 = factor(`data1870 (`,
                             levels = c('> 1000', '1000 - 2500', '2500 - 5000', '5000 - 10000', '10000 - 15000', '15000 - 20000', '20000 - 30000'),
@@ -29,10 +29,10 @@ ga_clean <- ga %>%
                             levels = c('> 1000', '1000 - 2500', '2500 - 5000', '5000 - 10000', '10000 - 15000', '15000 - 20000', '20000 - 30000'),
                             labels = c('UNDER 1,000', '1,000 TO 2,500', '2,500 TO 5,000', '5,000 TO 10,000', '10,000 TO 15,000', '15,000 TO 20,000', 'BETWEEN 20,000 AND 30,000')))
 
-# Straighten Maps
+# Straighten maps
 ga_clean <- st_transform(ga_clean, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
-#Add color palette
+#Add Du Bois color palette
 myColors <- c("#3e5748",
               "#f2b438",
               "#e5a59e", 
@@ -51,17 +51,17 @@ myLabels <- c("UNDER 1,000",
               "BETWEEN 20,000 AND 30,000",
               "NA")
 
-# Use census tract data to change areas alpha randomly (marker effect)
+# Use census tract data to change areas alpha randomly (shading)
 ga_tracts <- tracts(state = 'Georgia')
 
-#set seed
+# Set seed for reproducibility
 set.seed(13)
-#randomly assign numbers to use for transparency level
+
+# Randomly assign numbers to use for transparency level
 ga_tracts <- ga_tracts %>%
   mutate(alpha_level = runif(n=2796, min=1, max=10))
 
-
-# Map 1870 Data (without legend)
+# Map 1870 data (without legend)
 map_1870 <- ga_clean %>% 
   filter(!is.na(data_1870)) %>% 
   ggplot() +
@@ -80,7 +80,7 @@ map_1870 <- ga_clean %>%
                                   size = 11,
                                   face ='bold'))
 
-# Map 1880 Data (without legend)
+# Map 1880 data (without legend)
 map_1880 <- ga_clean %>% 
   filter(!is.na(data_1880)) %>% 
   ggplot() +
@@ -100,14 +100,14 @@ map_1880 <- ga_clean %>%
                                   face = 'bold'))
 
 
-#Export png
+# Export png
 png("../Data Output/r_challenge.png", height=10000, width=8000, units = "px", res=1200)
 
-#For background
+# Read in background image, add to plot
 bkg <- jpeg::readJPEG(bkg_file)
 grid.raster(bkg)
 
-#Viewports
+# Creating viewports
 vp <- viewport(x=0.5, y=0.5, width=.7, height=1)
 pushViewport(vp)
 grid.text("NEGRO POPULATION OF GEORGIA BY COUNTIES .",
@@ -118,19 +118,19 @@ grid.text("NEGRO POPULATION OF GEORGIA BY COUNTIES .",
                   col="gray10"))
 
 
-#1870 map
+# 1870 map
 vp1 <- viewport(x=0.18, y=0.70, width=0.7, height=0.52)
 pushViewport(vp1)
 print(map_1870, newpage=FALSE)
 upViewport()
 
-#1880 map
+# 1880 map
 vp4 <- viewport(x=0.81, y=0.24, width=0.7, height=0.52)
 pushViewport(vp4)
 print(map_1880, newpage=FALSE)
 upViewport()
 
-#top right legend
+# Top right legend
 vp2 <- viewport(x=0.8, y=0.75, width=0.5, height=0.5)
 pushViewport(vp2)
 grid.circle(x=-0.04, y=0.68, r=0.057, gp=gpar(fill=myColors[7], col="gray40", alpha=1))
@@ -153,7 +153,7 @@ grid.text(myLabels[5],
                   col="gray40"))
 upViewport()
 
-#bottom left legend
+# Bottom left legend
 vp3 <- viewport(x=0.2, y=0.25, width=0.5, height=0.5)
 pushViewport(vp3)
 grid.circle(x=0.05, y=0.3, r=0.057, gp=gpar(fill=myColors[1], col="gray40", alpha=0.9)) 
