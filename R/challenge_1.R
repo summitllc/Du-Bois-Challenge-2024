@@ -51,13 +51,13 @@ ga_clean <- ga %>%
 ga_clean <- st_transform(ga_clean, "+proj=longlat +ellps=WGS84 +datum=WGS84")
 
 #Add color palette
-myColors <- c("#3e5748", 
-              "#f2b438", 
-              "#e89a96", 
-              "#db163c", 
-              "#bf9d82", 
-              "#3e2518", 
-              "#23214f", 
+myColors <- c("#3e5748",
+              "#f2b438",
+              "#e5a59e", 
+              "#d62b3f",
+              "#d0b49c",
+              "#3e2518",
+              "#201e56",
               "#e2cebb")
 
 # Use census tract data to change areas alpha randomly (marker effect)
