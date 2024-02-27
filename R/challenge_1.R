@@ -101,7 +101,7 @@ map_1880 <- ga_clean %>%
 
 
 #Export png
-png("..\Data Output\r_challenge.png", height=10000, width=8000, units = "px", res=1200)
+png("../Data Output/r_challenge.png", height=10000, width=8000, units = "px", res=1200)
 
 #For background
 bkg <- jpeg::readJPEG(bkg_file)
