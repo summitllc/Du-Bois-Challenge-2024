@@ -5,16 +5,16 @@
 rm(list=ls())
 
 # Load Packages
-library(sf) # Spatial figures? package is most popular in R for mapping/spatial data
+library(sf)
 library(ggplot2)
 library(tidyverse)
-library(RColorBrewer)
-library(ggforce)
+# library(RColorBrewer)
+# library(ggforce)
 library(grid)
 library(extrafont)
-library(jpeg)
-library(ggpubr)
-library(berryFunctions)
+# library(jpeg)
+# library(ggpubr)
+# library(berryFunctions)
 library(tigris)
 
 #I think you'll need this code if you haven't updated your fonts, but not positive if we all need it
