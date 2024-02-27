@@ -6,16 +6,12 @@ rm(list=ls())
 
 # Load Packages
 library(sf)
-library(ggplot2)
+library(tigris)
 library(tidyverse)
-# library(RColorBrewer)
-# library(ggforce)
+library(ggplot2)
 library(grid)
 library(extrafont)
-# library(jpeg)
-# library(ggpubr)
-# library(berryFunctions)
-library(tigris)
+
 
 # Load data
 ga <- read_sf('../Data Input/DuBoisChallenge - Georgia Counties w 1870 & 1880 data.shp')
@@ -25,13 +21,13 @@ bkg_file <- '../Data Input/background_photo.jpg'
 
 # Clean the variables of interest
 ## Set them as factors, clean variable names, clean the labels to match Du Bois
-ga_clean <- ga %>% 
-  mutate(data_1870 = factor(`data1870 (`, 
+ga_clean <- ga %>%
+  mutate(data_1870 = factor(`data1870 (`,
                             levels = c('> 1000', '1000 - 2500', '2500 - 5000', '5000 - 10000', '10000 - 15000', '15000 - 20000', '20000 - 30000'),
                             labels = c('UNDER 1,000', '1,000 TO 2,500', '2,500 TO 5,000', '5,000 TO 10,000', '10,000 TO 15,000', '15,000 TO 20,000', 'BETWEEN 20,000 AND 30,000'))) %>%
-  mutate(data_1880 = factor(`data1880_P`, 
+  mutate(data_1880 = factor(`data1880_P`,
                             levels = c('> 1000', '1000 - 2500', '2500 - 5000', '5000 - 10000', '10000 - 15000', '15000 - 20000', '20000 - 30000'),
-                            labels = c('UNDER 1,000', '1,000 TO 2,500', '2,500 TO 5,000', '5,000 TO 10,000', '10,000 TO 15,000', '15,000 TO 20,000', 'BETWEEN 20,000 AND 30,000'))) 
+                            labels = c('UNDER 1,000', '1,000 TO 2,500', '2,500 TO 5,000', '5,000 TO 10,000', '10,000 TO 15,000', '15,000 TO 20,000', 'BETWEEN 20,000 AND 30,000')))
 
 # Straighten Maps
 ga_clean <- st_transform(ga_clean, "+proj=longlat +ellps=WGS84 +datum=WGS84")
@@ -105,7 +101,7 @@ map_1880 <- ga_clean %>%
 
 
 #Export png
-png("r_challenge.png", height=10000, width=8000, units = "px", res=1200)
+png("..\Data Output\r_challenge.png", height=10000, width=8000, units = "px", res=1200)
 
 #For background
 bkg <- jpeg::readJPEG(bkg_file)
@@ -114,7 +110,7 @@ grid.raster(bkg)
 #Viewports
 vp <- viewport(x=0.5, y=0.5, width=.7, height=1)
 pushViewport(vp)
-grid.text("NEGRO POPULATION OF GEORGIA BY COUNTIES.",
+grid.text("NEGRO POPULATION OF GEORGIA BY COUNTIES .",
           x=.5, y=.95,
           gp=gpar(fontsize=15, 
                   fontfamily="Bahnschrift", 
